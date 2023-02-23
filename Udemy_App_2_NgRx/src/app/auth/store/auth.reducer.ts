@@ -10,7 +10,7 @@ export interface State {
 const initialState: State = {
   user: null,
   authError: null,
-  loading: false
+  loading: false,
 };
 
 export function authReducer(
@@ -29,32 +29,34 @@ export function authReducer(
         ...state,
         authError: null,
         user: user,
-        loading: false
+        loading: false,
       };
     case AuthActions.LOGOUT:
       return {
         ...state,
-        user: null
+        user: null,
       };
     case AuthActions.LOGIN_START:
     case AuthActions.SIGNUP_START:
       return {
         ...state,
         authError: null,
-        loading: true
+        loading: true,
       };
     case AuthActions.AUTHENTICATE_FAIL:
       return {
         ...state,
         user: null,
         authError: action.payload,
-        loading: false
+        loading: false,
       };
     case AuthActions.CLEAR_ERROR:
       return {
         ...state,
-        authError: null
+        authError: null,
       };
+    //Khi app bat dau, vi minh da khai bao storeModule trong NgModule, NgRx se goi toi tat ca reducer, luc nay chua co param goi toi (cu the la action)
+    // => switch() tra ve default, va reducer da co param state = initialState (da duoc tao san) => luon co state tra ve
     default:
       return state;
   }

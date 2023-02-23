@@ -20,6 +20,11 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
+//Actions nay khac voi Actions "@ngrx/store", la obs cho phep minh truy cap vao tat ca cac dispatch
+//Khac voi reducer la thay doi state, effects cho phep can thiep xu ly logic trong qua trinh dispatch
+//Effect tu dong subscribe, return mot action == obs
+//Effect tu dong dispatch cac action tiep theo => {dispatch: false} de ngan Effect dispatch
+
 const handleAuthentication = (
   expiresIn: number,
   email: string,
@@ -54,14 +59,19 @@ const handleError = (errorRes: any) => {
       errorMessage = 'This password is not correct.';
       break;
   }
+  //of() tao ra mot obs moi khong error
   return of(new AuthActions.AuthenticateFail(errorMessage));
 };
 
+//Can @Injectable() doi voi Effect
 @Injectable()
 export class AuthEffects {
+  //Obs stream cua Effect khong duoc phep chet trong thoi gian app hoat dong, khac voi obs http la catch error, obs do chet nhung van co the tao obs moi
   authSignup = createEffect(() => {
     return this.actions$.pipe(
+      //chi phan ung voi dispatch thuoc LOGIN_START
       ofType(AuthActions.SIGNUP_START),
+      //switchMap() tao obs voi data dua tren stream obs cua Effect
       switchMap((signupAction: AuthActions.SignupStart) => {
         return this.http
           .post<AuthResponseData>(
@@ -85,6 +95,7 @@ export class AuthEffects {
                 resData.idToken
               );
             }),
+            //De duy tri obs stream cua Effect, phan bat error phai tra ve mot obs khong error, va khong duoc throw error
             catchError((errorRes) => {
               return handleError(errorRes);
             })
@@ -131,6 +142,7 @@ export class AuthEffects {
     () => {
       return this.actions$.pipe(
         ofType(AuthActions.AUTHENTICATE_SUCCESS),
+        //Chi redirect khi co dispatch ve authenticate
         tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
           if (authSuccessAction.payload.redirect) this.router.navigate(['/']);
         })
