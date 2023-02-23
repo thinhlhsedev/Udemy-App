@@ -22,8 +22,13 @@ import { RecipeEffects } from './recipes/store/recipe.effects';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    // StoreModule.forRoot({
+    //   shoppingList: shoppinglistReducer,
+    //   auth: authReducer,
+    // }),
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([AuthEffects, RecipeEffects]),
+    //Chi log o moi truong P
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
     SharedModule,
@@ -31,5 +36,6 @@ import { RecipeEffects } from './recipes/store/recipe.effects';
   ],
   bootstrap: [AppComponent],
   // providers: [LoggingService]
+  //EntryComponent dung de khai bao cac component khong duoc dung bang cach goi directive tren template (duoc tao trong file.ts)
 })
 export class AppModule {}

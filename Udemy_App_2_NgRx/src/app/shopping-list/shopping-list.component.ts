@@ -22,7 +22,12 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    //select(): lay copy state hien tai, tra ve Observable
     this.ingredients = this.store.select('shoppingList');
+
+    //Vi la Obs nen van co the luu subscribe trong bien cua Subscription
+    //this.subscription = this.store.select('shoppingList').subscribe();
+
     // this.ingredients = this.slService.getIngredients();
     // this.subscription = this.slService.ingredientsChanged.subscribe(
     //   (ingredients: Ingredient[]) => {

@@ -1,14 +1,15 @@
 <div class="row">
   <div class="col-xs-10">
     <app-shopping-edit></app-shopping-edit>
-    <hr>
+    <hr />
     <ul class="list-group">
-      <a
-        class="list-group-item"
-        style="cursor: pointer"
-        *ngFor="let ingredient of (ingredients | async).ingredients; let i = index"
-        (click)="onEditItem(i)"
-      >
+      <!-- Sau khi doi kieu cua ingredients thanh Observable, template se bi error o *ngFor vi *ngFor khong tiep xuc voi Obs-->
+      <!-- Fix: ngFor="let ingredient of ingredients => ngFor="let ingredient of (ingredients | async).ingredients -->
+      <!-- Dung pipe de chuyen ve async, async dong thoi subcribe vao ingredients => khong can Subcription ben file.ts -->
+      <a class="list-group-item" style="cursor: pointer" *ngFor="
+          let ingredient of (ingredients | async).ingredients;
+          let i = index
+        " (click)="onEditItem(i)">
         {{ ingredient.name }} ({{ ingredient.amount }})
       </a>
     </ul>
