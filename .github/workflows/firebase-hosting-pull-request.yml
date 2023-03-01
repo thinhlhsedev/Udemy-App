@@ -12,6 +12,7 @@ jobs:
       - run: npm ci
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          entrypoint: ./Udemy-App
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_UDEMYAPP_CA702 }}'
           projectId: udemyapp-ca702
